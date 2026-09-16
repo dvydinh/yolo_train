@@ -2,8 +2,8 @@ from ultralytics import YOLO
 import torch
 from pathlib import Path
 
-MODEL_PATH = "yolo26m.pt" #
-# MODEL_PATH = "yolo26l.pt" #
+# MODEL_PATH = "yolo26m.pt" #
+MODEL_PATH = "yolo26l.pt" #
 # MODEL_PATH = "yolov9s.pt" #
 
 DATA_YAML = "data_smf_fpidet.yaml"
