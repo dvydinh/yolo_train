@@ -48,7 +48,16 @@ if last_pt:
     results = model.train(resume=True)
 else:
     model = YOLO(MODEL_PATH)
+    import glob
+    tune_yaml = glob.glob(f"{PROJECT}/{NAME}_tuning*/best_hyperparameters.yaml")
+    hyper_args = {}
+    if tune_yaml:
+        import yaml
+        with open(tune_yaml[0]) as f:
+            hyper_args = yaml.safe_load(f)
+        print(f"Found tuned hyperparameters: {tune_yaml[0]}")
     results = model.train(
+    **hyper_args,
     data=DATA_YAML,
     epochs=EPOCHS,
     imgsz=IMG_SIZE,
