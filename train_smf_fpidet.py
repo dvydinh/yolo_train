@@ -35,9 +35,14 @@ print(f"Image   : {IMG_SIZE}")
 print(f"Batch   : {BATCH_SIZE}")
 print("=" * 70)
 
-model = YOLO(MODEL_PATH)
-
-results = model.train(
+last_pt = Path(PROJECT) / NAME / "weights" / "last.pt"
+if last_pt.exists():
+    print(f"Resuming training from {last_pt}")
+    model = YOLO(last_pt)
+    results = model.train(resume=True)
+else:
+    model = YOLO(MODEL_PATH)
+    results = model.train(
     data=DATA_YAML,
     epochs=EPOCHS,
     imgsz=IMG_SIZE,
