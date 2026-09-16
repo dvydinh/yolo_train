@@ -3,16 +3,16 @@ import torch
 from pathlib import Path
 import os
 
-MODEL_PATH = "yolo26l.pt"
+MODEL_PATH = "yolo11x.pt"
 
 DATA_YAML = "data_smf_fpidet.yaml"
 
 PROJECT = "runs/smf_fpidet_detection"
-model_size = "m" if "m" in MODEL_PATH else "l" if "l" in MODEL_PATH else "s"
-NAME = f"yolo26{model_size}_smf_fpidet"
+model_size = "x" if "x" in MODEL_PATH else "l" if "l" in MODEL_PATH else "m" if "m" in MODEL_PATH else "s"
+NAME = f"yolo11{model_size}_smf_fpidet"
 
 EPOCHS = 100
-IMG_SIZE = 640
+IMG_SIZE = 1280
 BATCH_SIZE = 0.9
 DEVICE = 0
 WORKERS = 16
