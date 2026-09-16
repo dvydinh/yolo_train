@@ -13,10 +13,9 @@ NAME = "yolov9_smf_fpidet" #
 
 EPOCHS = 100 #
 IMG_SIZE = 640 #
-BATCH_SIZE = 16 #
-
+BATCH_SIZE = -1 # AutoBatch: tự động tìm batch_size to nhất vừa với 94GB VRAM
 DEVICE = 0
-WORKERS = 8
+WORKERS = 16 # Tăng luồng nạp data
 
 print("=" * 70)
 print("YOLO SMF_FPIDET DETECTION - TRAINING")
@@ -50,7 +49,7 @@ results = model.train(
     save=True,
     save_period=10,
     val=True,
-    cache=False,
+    cache=True,
     amp=True,
     optimizer="SGD",
     lr0=0.01,
