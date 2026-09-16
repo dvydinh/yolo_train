@@ -13,7 +13,7 @@ NAME = "yolov9_smf_fpidet" #
 
 EPOCHS = 100 #
 IMG_SIZE = 640 #
-BATCH_SIZE = -1 # AutoBatch: tự động tìm batch_size to nhất vừa với 94GB VRAM
+BATCH_SIZE = 0.9 # AutoBatch: tự động tính toán để ngốn 90% của 94GB VRAM
 DEVICE = 0
 WORKERS = 16 # Tăng luồng nạp data
 
