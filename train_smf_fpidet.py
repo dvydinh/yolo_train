@@ -1,6 +1,7 @@
 from ultralytics import YOLO
 import torch
 from pathlib import Path
+import os
 
 # MODEL_PATH = "yolo26m.pt" #
 MODEL_PATH = "yolo26l.pt" #
@@ -9,7 +10,8 @@ MODEL_PATH = "yolo26l.pt" #
 DATA_YAML = "data_smf_fpidet.yaml"
 
 PROJECT = "runs/smf_fpidet_detection"
-NAME = "yolov9_smf_fpidet" #
+model_size = "m" if "m" in MODEL_PATH else "l" if "l" in MODEL_PATH else "s"
+NAME = f"yolov9{model_size}_smf_fpidet"
 
 EPOCHS = 100 #
 IMG_SIZE = 640 #
@@ -33,10 +35,16 @@ print(f"Dataset : {DATA_YAML}")
 print(f"Epochs  : {EPOCHS}")
 print(f"Image   : {IMG_SIZE}")
 print(f"Batch   : {BATCH_SIZE}")
-print("=" * 70)
+import glob
+run_dirs = glob.glob(f"{PROJECT}/{NAME}*")
+last_pt = None
+if run_dirs:
+    latest_run = max(run_dirs, key=os.path.getmtime)
+    potential_last = Path(latest_run) / "weights" / "last.pt"
+    if potential_last.exists():
+        last_pt = potential_last
 
-last_pt = Path(PROJECT) / NAME / "weights" / "last.pt"
-if last_pt.exists():
+if last_pt:
     print(f"Resuming training from {last_pt}")
     model = YOLO(last_pt)
     results = model.train(resume=True)
