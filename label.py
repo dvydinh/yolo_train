@@ -5,17 +5,33 @@ from ultralytics import YOLO
 target_dir = "/content/drive/MyDrive/outpainting_workspace/data/results"
 valid_exts = {".jpg", ".jpeg", ".png", ".bmp", ".webp"}
 
-weight_files = glob.glob("runs/smf_fpidet_detection/*/weights/best.pt")
-if not weight_files:
-    weight_files = glob.glob("runs/smf_fpidet_detection/*/weights/last.pt")
+import pandas as pd
 
-if not weight_files:
+runs = glob.glob("runs/smf_fpidet_detection/*")
+best_model_path = None
+best_map = -1.0
+
+for run in runs:
+    csv_file = os.path.join(run, "results.csv")
+    pt_file = os.path.join(run, "weights", "best.pt")
+    if os.path.exists(csv_file) and os.path.exists(pt_file):
+        try:
+            df = pd.read_csv(csv_file)
+            df.columns = df.columns.str.strip()
+            map_col = [c for c in df.columns if "mAP50-95" in c]
+            if map_col:
+                max_map = df[map_col[0]].max()
+                if max_map > best_map:
+                    best_map = max_map
+                    best_model_path = pt_file
+        except Exception:
+            pass
+
+if not best_model_path:
     print("model not found")
     exit()
 
-latest_weight = max(weight_files, key=os.path.getmtime)
-print("using model:", latest_weight)
-model = YOLO(latest_weight)
+model = YOLO(best_model_path)
 
 for root, dirs, files in os.walk(target_dir):
     for f in files:
