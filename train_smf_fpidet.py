@@ -9,7 +9,7 @@ DATA_YAML = "data_smf_fpidet.yaml"
 
 PROJECT = "runs/smf_fpidet_detection"
 model_size = "m" if "m" in MODEL_PATH else "l" if "l" in MODEL_PATH else "s"
-NAME = f"yolov9{model_size}_smf_fpidet"
+NAME = f"yolo26{model_size}_smf_fpidet"
 
 EPOCHS = 100
 IMG_SIZE = 640
