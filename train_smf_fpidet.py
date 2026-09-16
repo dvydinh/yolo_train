@@ -3,9 +3,7 @@ import torch
 from pathlib import Path
 import os
 
-# MODEL_PATH = "yolo26m.pt" #
-MODEL_PATH = "yolo26l.pt" #
-# MODEL_PATH = "yolov9s.pt" #
+MODEL_PATH = "yolo26l.pt"
 
 DATA_YAML = "data_smf_fpidet.yaml"
 
@@ -13,11 +11,11 @@ PROJECT = "runs/smf_fpidet_detection"
 model_size = "m" if "m" in MODEL_PATH else "l" if "l" in MODEL_PATH else "s"
 NAME = f"yolov9{model_size}_smf_fpidet"
 
-EPOCHS = 100 #
-IMG_SIZE = 640 #
-BATCH_SIZE = 0.9 # AutoBatch: tự động tính toán để ngốn 90% của 94GB VRAM
+EPOCHS = 100
+IMG_SIZE = 640
+BATCH_SIZE = 0.9
 DEVICE = 0
-WORKERS = 16 # Tăng luồng nạp data
+WORKERS = 16
 
 print("=" * 70)
 print("YOLO SMF_FPIDET DETECTION - TRAINING")
