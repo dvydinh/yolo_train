@@ -12,7 +12,7 @@ model_size = "x" if "x" in MODEL_PATH else "l" if "l" in MODEL_PATH else "m" if 
 NAME = f"yolo11{model_size}_smf_fpidet"
 
 EPOCHS = 100
-IMG_SIZE = 1280
+IMG_SIZE = 640
 BATCH_SIZE = 0.9
 DEVICE = 0
 WORKERS = 16
