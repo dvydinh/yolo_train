@@ -22,6 +22,10 @@ if not best_model_path:
 
 model = YOLO(best_model_path)
 
+output_base_dir = "/content/drive/MyDrive/yolo_train/label_results"
+labels_dir = os.path.join(output_base_dir, "labels")
+images_bb_dir = os.path.join(output_base_dir, "images_bb")
+
 batch_size = 64
 img_batch = []
 
@@ -30,14 +34,29 @@ def process_batch(batch):
     # Model nhận nguyên list ảnh để xử lý song song (batch processing)
     results = model(batch, verbose=False)
     for res in results:
-        # Lấy lại đường dẫn ảnh gốc từ kết quả
         original_img_path = res.path
-        txt_path = os.path.splitext(original_img_path)[0] + ".txt"
+        # Tính toán đường dẫn tương đối để giữ nguyên cấu trúc thư mục (tránh trùng tên file)
+        rel_path = os.path.relpath(original_img_path, target_dir)
+        rel_dir = os.path.dirname(rel_path)
+        filename = os.path.basename(rel_path)
+        base_name = os.path.splitext(filename)[0]
+        
+        out_label_dir = os.path.join(labels_dir, rel_dir)
+        out_image_dir = os.path.join(images_bb_dir, rel_dir)
+        os.makedirs(out_label_dir, exist_ok=True)
+        os.makedirs(out_image_dir, exist_ok=True)
+        
+        txt_path = os.path.join(out_label_dir, base_name + ".txt")
+        img_bb_path = os.path.join(out_image_dir, filename)
+        
         with open(txt_path, "w") as f_txt:
             for box in res.boxes:
                 c = int(box.cls[0])
                 x, y, w, h = box.xywhn[0].tolist()
                 f_txt.write(f"{c} {x:.6f} {y:.6f} {w:.6f} {h:.6f}\n")
+                
+        # Lưu tấm ảnh đã được model vẽ sẵn bounding box
+        res.save(filename=img_bb_path)
 
 for root, dirs, files in os.walk(target_dir):
     for f in files:
