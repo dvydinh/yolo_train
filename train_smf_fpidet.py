@@ -72,7 +72,7 @@ else:
     cache=True,
     amp=True,
     optimizer="SGD",
-    multi_scale=True, # Bật huấn luyện đa kích thước (chống sốc cho ảnh lúc to lúc nhỏ)
+    patience=20, # Early Stopping: Tự động dừng sớm nếu model bắt đầu học vẹt
     lr0=0.01,
     lrf=0.01,
     weight_decay=0.0005,
