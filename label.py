@@ -7,25 +7,14 @@ valid_exts = {".jpg", ".jpeg", ".png", ".bmp", ".webp"}
 
 import pandas as pd
 
-runs = glob.glob("runs/smf_fpidet_detection/*")
+# Đệ quy tìm tất cả các file best.pt ở mọi ngóc ngách
+pt_files = glob.glob("**/*/weights/best.pt", recursive=True)
 best_model_path = None
-best_map = -1.0
 
-for run in runs:
-    csv_file = os.path.join(run, "results.csv")
-    pt_file = os.path.join(run, "weights", "best.pt")
-    if os.path.exists(csv_file) and os.path.exists(pt_file):
-        try:
-            df = pd.read_csv(csv_file)
-            df.columns = df.columns.str.strip()
-            map_col = [c for c in df.columns if "mAP50-95" in c]
-            if map_col:
-                max_map = df[map_col[0]].max()
-                if max_map > best_map:
-                    best_map = max_map
-                    best_model_path = pt_file
-        except Exception:
-            pass
+if pt_files:
+    # Lấy file best.pt mới được sinh ra gần đây nhất (chính là bản multiscale vừa train xong)
+    best_model_path = max(pt_files, key=os.path.getmtime)
+    print(f"Auto-selected the newest model: {best_model_path}")
 
 if not best_model_path:
     print("model not found")
