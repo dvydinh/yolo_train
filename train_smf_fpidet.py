@@ -3,7 +3,7 @@ import torch
 from pathlib import Path
 import os
 
-MODEL_PATH = "yolo26l.pt"
+MODEL_PATH = "yolo26m.pt"
 
 DATA_YAML = "data_smf_fpidet.yaml"
 
