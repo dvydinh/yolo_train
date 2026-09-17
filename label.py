@@ -22,9 +22,17 @@ if not best_model_path:
 
 model = YOLO(best_model_path)
 
-output_base_dir = "/content/drive/MyDrive/yolo_train/label_results"
+import datetime
+
+# Lấy tên thư mục của model (ví dụ: yolo26m_fixed_patience20) và nối thêm mốc thời gian để không bao giờ bị trùng
+model_run_name = os.path.basename(os.path.dirname(os.path.dirname(best_model_path)))
+timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+unique_folder_name = f"label_results_{model_run_name}_{timestamp}"
+
+output_base_dir = os.path.join("/content/drive/MyDrive/yolo_train", unique_folder_name)
 labels_dir = os.path.join(output_base_dir, "labels")
 images_bb_dir = os.path.join(output_base_dir, "images_bb")
+print(f"[*] THƯ MỤC LƯU KẾT QUẢ ĐỘC LẬP: {output_base_dir}")
 
 batch_size = 64
 img_batch = []
