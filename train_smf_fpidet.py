@@ -72,7 +72,7 @@ else:
     cache=True,
     amp=True,
     optimizer="SGD",
-    patience=20, # Early Stopping: Tự động dừng sớm nếu model bắt đầu học vẹt
+    patience=0,
     lr0=0.01,
     lrf=0.01,
     weight_decay=0.0005,
