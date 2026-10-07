@@ -3,8 +3,8 @@ import random
 from pathlib import Path
 from PIL import Image, ImageDraw
 
-IMAGES_DIR = Path("smf_fpidet_dataset/train/images")
-LABELS_DIR = Path("smf_fpidet_dataset/train/labels")
+IMAGES_DIR = Path("cleaned data/train/images")
+LABELS_DIR = Path("cleaned data/train/labels")
 OUTPUT_DIR = Path("samples_to_check")
 
 CLASSES = {0: "person", 1: "phone"}
