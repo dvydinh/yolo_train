@@ -1,4 +1,4 @@
-path: smf_fpidet_dataset
+path: /content/drive/MyDrive/yolo_train/cleaned data
 
 train: train/images
 val: valid/images
