@@ -1,4 +1,4 @@
-path: /content/drive/MyDrive/yolo_train/fpi_fpi_extended_dataset
+path: /content/drive/MyDrive/yolo_train/cleaned data
 
 train: train/images
 val: valid/images
