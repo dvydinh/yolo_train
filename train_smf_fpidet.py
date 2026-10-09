@@ -12,7 +12,7 @@ model_size = "m" if "m" in MODEL_PATH else "l" if "l" in MODEL_PATH else "s"
 NAME = f"yolo26{model_size}_smf_fpidet"
 
 EPOCHS = 100
-IMG_SIZE = 640
+IMG_SIZE = 1280
 BATCH_SIZE = 0.9
 DEVICE = 0
 WORKERS = 16
@@ -80,9 +80,13 @@ else:
     seed=42,
     deterministic=True,
     verbose=True,
+    augment=True,
+    degrees=15.0,
 )
 
-best_model_path = Path(PROJECT) / NAME / "weights" / "best.pt"
+import glob
+pt_files = glob.glob(f"{PROJECT}/{NAME}*/weights/best.pt")
+best_model_path = Path(max(pt_files, key=os.path.getmtime)) if pt_files else Path("dummy_path_that_doesnt_exist")
 
 print("\n" + "=" * 70)
 print("TRAINING FINISHED")
